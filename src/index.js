@@ -1,9 +1,11 @@
 import "./style.css";
 import rotateIcon from './rotate-360.svg';
+import { Ship } from "../js/ship";
+import { Gameboard } from "../js/gameboard";
 
 let rotate = document.createElement("img");
 rotate.src = rotateIcon;
-let button = document.querySelector("button");
+let button = document.querySelector("button.rotate");
 button.appendChild(rotate);
 
 let playerGrid = document.querySelector(".player > .grid-container");
@@ -31,3 +33,8 @@ for (let row = 0; row < 10; row += 1) {
 
     }
 }
+
+let player1 = new Gameboard();
+player1.placeShip();
+
+button.addEventListener("click", () => player1.placeShip());

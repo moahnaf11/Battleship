@@ -1,4 +1,5 @@
-import {Ship} from "./ship"
+import {Ship} from "./ship";
+import battleship from "/src/battleship.svg";
 
 
 let isVertical;
@@ -19,6 +20,9 @@ class Gameboard {
     }
 
     placeShip() {
+        if (this.grid.some((row) => row.some((item) => item !== ""))) {
+            this.grid = Array(10).fill().map(() => Array(10).fill(""));
+        }
         let ships = [this.carrier, this.battleship, this.destroyer, this.submarine, this.patrolBoat];
         for (let ship of ships) {
             while (true) {
@@ -41,11 +45,16 @@ class Gameboard {
                         }
 
                         if (gridspace === ship.length) {
+                            let shipicon = document.createElement("img");
+                            shipicon.src = battleship;
+                            let boxTarget = document.querySelector(`div.row-${verticalNum}.col-${number}`);
+                            boxTarget.appendChild(shipicon);
+                            shipicon.style.width = 
                             for (let count = 0; count < ship.length; count += 1) {
                                 this.grid[verticalNum][number] = ship.name;
                                 verticalNum += 1;
                             }
-                            break
+                            break;
                         }
 
 
@@ -99,7 +108,10 @@ class Gameboard {
 
             }
 
-        }   
+        }
+        console.log(this.grid);   
     }
 
 }
+
+export {Gameboard};

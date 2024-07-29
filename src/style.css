@@ -107,6 +107,7 @@ button:hover {
     background-color: #f0abfc;
     border: 1px solid black;
     text-align: center;
+    position: relative;
 }
 
 .grid-container > div:hover {
@@ -124,3 +125,10 @@ button:hover {
     font-size: 1.1rem;
     font-family: 'intro_rust_gbase_2_line', sans-serif;
 }
+
+.player > .grid-container > div > img {
+    height: 2px;
+    width: 2px;
+    z-index: 2;
+}
+
