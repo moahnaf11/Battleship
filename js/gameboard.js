@@ -1,24 +1,105 @@
-import { carrier, battleship, destroyer, submarine, patrolBoat } from "./ship"
+import {Ship} from "./ship"
+
+
+let isVertical;
+ 
 
 class Gameboard {
     constructor() {
-        this.grid = [
-            [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]],
-            [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1]],
-            [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2], [9, 2]],
-            [[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3], [9, 3]],
-            [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4]],
-            [[0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5], [9, 5]],
-            [[0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6], [8, 6], [9, 6]],
-            [[0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7], [8, 7], [9, 7]],
-            [[0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], [8, 8], [9, 8]],
-            [[0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9], [8, 9], [9, 9]],
-                
-        ]
+        this.grid = Array(10).fill().map(() => Array(10).fill(""));
+        this.carrier = new Ship(5, "carrier");
+        this.battleship = new Ship(4, "battleship");
+        this.destroyer = new Ship(3, "destroyer");
+        this.submarine = new Ship(3, "submarine");
+        this.patrolBoat = new Ship(2, "patrolboat");
     }
 
     receiveAttack() {
 
     }
-}
 
+    placeShip() {
+        let ships = [this.carrier, this.battleship, this.destroyer, this.submarine, this.patrolBoat];
+        for (let ship of ships) {
+            while (true) {
+                let number = Math.floor(Math.random() * 10);
+                let numSub = number - (ship.length - 1);
+                let numAdd = number + ship.length;
+                let numY = number;
+                let verticalNum = number;
+                if (number < 5) {
+                    isVertical = true;
+                    if (numAdd <= 10 && isVertical) {
+                        let gridspace = 0;
+                        for (let i = 0; i < ship.length; i +=1) {
+                            if (this.grid[numY][number] !== "") {
+                                break;
+                            }   else {
+                                gridspace += 1;
+                                numY += 1;
+                            }
+                        }
+
+                        if (gridspace === ship.length) {
+                            for (let count = 0; count < ship.length; count += 1) {
+                                this.grid[verticalNum][number] = ship.name;
+                                verticalNum += 1;
+                            }
+                            break
+                        }
+
+
+                    }   else if (numSub >= 0 && isVertical) {
+                        let gridcound = 0;
+                        for (let i = 0; i < ship.length; i += 1) {
+                            if (this.grid[verticalNum][numSub] !== "") {
+                                break;
+                            }   else {
+                                gridcound += 1;
+                                verticalNum += 1;
+                            }
+                        } 
+
+                        if (gridcound === ship.length) {
+                            for (let count = 0; count < ship.length; count += 1) {
+                                this.grid[verticalNum][number] = ship.name;
+                                verticalNum += 1;
+                            }
+                            break;
+
+                        }
+
+                    }
+ 
+
+                }   else {
+                    isVertical = false;
+                    if (numAdd <= 10 && !isVertical) {
+                        let shipOccupied = this.grid[number].slice(number, numAdd);
+                        if (shipOccupied.every(slot => slot === "")) {
+                            for (let count = 0; count < ship.length; count += 1) {
+                                this.grid[number][numY] = ship.name;
+                                numY += 1;
+                            }
+                            break;
+                        }  
+
+                    }   else if (numSub >= 0 && !isVertical) {
+                        let shipOccupied = this.grid[number].slice(numSub, number + 1);
+                        if (shipOccupied.every(slot => slot === "")) {
+                            for (let count = 0; count < ship.length; count += 1) {
+                                this.grid[number][numSub] = ship.name;
+                                numSub += 1;
+                            }
+                            break;
+                        }
+
+                    } 
+                }
+
+            }
+
+        }   
+    }
+
+}

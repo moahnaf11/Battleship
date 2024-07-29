@@ -1,10 +1,11 @@
 
 
 class Ship {
-    constructor(length, sunk=false, hit=0) {
+    constructor(length, name, sunk=false, hit=0) {
         this.length = length;
         this.sunk = sunk;
-        this.hit = hit; 
+        this.hit = hit;
+        this.name = name;  
     }
 
     hits() {
@@ -19,11 +20,5 @@ class Ship {
     }
 }
 
-let carrier = new Ship(5);
-let battleship = new Ship(4);
-let destroyer = new Ship(3);
-let submarine = new Ship(3);
-let patrolBoat = new Ship(2);
 
-
-export{carrier, battleship, destroyer, submarine, patrolBoat};
+export{Ship};
