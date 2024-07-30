@@ -64,26 +64,45 @@ startButton.addEventListener("click", () => {
 })
 
 // computer attack function 
+
+let lastHit = null;
+let potentialTargets = [];
+
 function computerAttack () {
     let playerAttack = true;
     disableComputerGridClickListeners();
 
+    let row, col;
 
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
-    while (player1.gameboard.grid.textContent === ".") {
-        row = Math.floor(Math.random() * 10);
-        col = Math.floor(Math.random() * 10);
+    // Check if there are potential targets
+    if (potentialTargets.length > 0) {
+        // Attack from the list of potential targets
+        [row, col] = potentialTargets.pop();
+    } else {
+        // Find a random cell that has not been attacked yet
+        do {
+            row = Math.floor(Math.random() * 10);
+            col = Math.floor(Math.random() * 10);
+        } while (player1.gameboard.grid[row][col].textContent === ".");
     }
-    while (turn === "computer" && playerAttack) {
-        playerAttack = player1.gameboard.receiveAttack(row, col);
-        if (playerAttack) {
-            if ((row + 1) < 10) {
-                row += 1;
-            }   else if (row - 1 >= 0) {
-                row -= 1;
-            } 
-        }
+
+    // Execute the attack
+    playerAttack = player1.gameboard.receiveAttack(row, col);
+
+    if (playerAttack) {
+        // Track the last hit
+        lastHit = { row, col };
+
+        // Add adjacent cells to potential targets
+        if (row > 0) potentialTargets.push([row - 1, col]); // Up
+        if (row < 9) potentialTargets.push([row + 1, col]); // Down
+        if (col > 0) potentialTargets.push([row, col - 1]); // Left
+        if (col < 9) potentialTargets.push([row, col + 1]); // Right
+
+        // Filter out already attacked cells from potential targets
+        potentialTargets = potentialTargets.filter(([r, c]) =>
+            document.querySelector(`.player > .grid-container > div.row-${r}.col-${c}`).textContent !== "."
+        );
         if (player1.gameboard.grid.every(row => row.every(col => col === ""))) {
             const style = document.createElement("style");
             style.textContent = `
@@ -97,17 +116,30 @@ function computerAttack () {
                     height: 100%;
                     position: absolute;
                     z-index: 2;
+                    top: 0;
+                    left: 0;
+                    background-color: #7dd3fc;
+                    font-size: 2rem;
+                    border-radius: 20px;
+                }
+                .computer {
+                    z-index: 1;
                 }
             `;
             document.head.appendChild(style);
             restartButton.style.display = "inline-block";
             return;
         }
+
+
+
+        setTimeout(computerAttack, 2000);
+        return;
+
     }
     turn = "player";
     document.querySelector("div.display").textContent = "Your turn";
     enableComputerGridClickListeners();
-
 }
 
 
@@ -132,6 +164,14 @@ function myAttack (box) {
                     height: 100%;
                     position: absolute;
                     z-index: 2;
+                    top: 0;
+                    left: 0;
+                    background-color: #7dd3fc;
+                    font-size: 2rem;
+                    border-radius: 20px;
+                }
+                .player {
+                    z-index: 1;
                 }
             `;
             document.head.appendChild(style);
@@ -183,6 +223,9 @@ restartButton.addEventListener("click", () => {
     if (style) {
         document.head.removeChild(style);
     }
+    lastHit = null;
+    potentialTargets = [];
+
 
     // Re-add event listeners
     enableComputerGridClickListeners();
