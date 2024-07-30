@@ -44,6 +44,7 @@ class Gameboard {
                     box.style.backgroundColor = "yellow";
                     this.grid[row][col] = "";
                 }
+                return true;
 
             }   else if (this.grid[row][col] === this.battleship.name) {
                 this.battleship.hits();
@@ -60,6 +61,7 @@ class Gameboard {
                     box.style.backgroundColor = "yellow";
                     this.grid[row][col] = "";
                 }
+                return true;
                 
 
             }   else if (this.grid[row][col] === this.destroyer.name) {
@@ -77,6 +79,7 @@ class Gameboard {
                     box.style.backgroundColor = "yellow";
                     this.grid[row][col] = "";
                 }
+                return true;
 
             }   else if (this.grid[row][col] === this.submarine.name) {
                 this.submarine.hits();
@@ -93,6 +96,7 @@ class Gameboard {
                     box.style.backgroundColor = "yellow";
                     this.grid[row][col] = "";
                 }
+                return true;
 
             }   else if (this.grid[row][col] === this.patrolBoat.name) {
                 this.patrolBoat.hits();
@@ -109,10 +113,12 @@ class Gameboard {
                     box.style.backgroundColor = "yellow";
                     this.grid[row][col] = "";
                 }
+                return true;
 
             }
         }   else if (this.grid[row][col] === "") {
             box.textContent = ".";
+            return false;
         }
 
     }

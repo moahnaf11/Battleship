@@ -54,6 +54,7 @@ header {
     width: 500px;
     border-radius: 20px;
     box-shadow: 0px 0px 5px 3px #475569;
+    position: relative;
 }
 
 .computer {
@@ -146,6 +147,10 @@ button:hover {
 
 div.display {
     font-family: 'intro_rust_gbase_2_line', sans-serif;
+}
+
+.restart {
+    display: none;
 }
 
 
