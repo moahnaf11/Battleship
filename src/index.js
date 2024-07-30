@@ -35,6 +35,8 @@ for (let row = 0; row < 10; row += 1) {
 }
 
 let player1 = new Gameboard();
-player1.placeShip();
+player1.placeShip("player");
+let computer = new Gameboard();
+computer.placeShip("computer");
 
-button.addEventListener("click", () => player1.placeShip());
+button.addEventListener("click", () => player1.placeShip("player"));
