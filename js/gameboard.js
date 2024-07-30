@@ -6,16 +6,114 @@ let isVertical;
  
 
 class Gameboard {
-    constructor() {
+    constructor(type) {
+        this.type = type;
         this.grid = Array(10).fill().map(() => Array(10).fill(""));
         this.carrier = new Ship(5, "carrier");
         this.battleship = new Ship(4, "battleship");
         this.destroyer = new Ship(3, "destroyer");
         this.submarine = new Ship(3, "submarine");
         this.patrolBoat = new Ship(2, "patrolboat");
+        this.carrierGrid = [];
+        this.battleshipGrid = [];
+        this.destroyerGrid = [];
+        this.submarineGrid = [];
+        this.patrolBoatGrid = [];
     }
 
-    receiveAttack() {
+    receiveAttack(row, col) {
+        let box;
+        if (this.type === "player") {
+            box = document.querySelector(`.player > .grid-container > div.row-${row}.col-${col}`);
+        }   else {
+            box = document.querySelector(`.computer > .grid-container > div.row-${row}.col-${col}`);
+        }
+        if (this.grid[row][col] !== "") {
+            if (this.grid[row][col] === this.carrier.name) {
+                this.carrier.hits();
+                this.carrierGrid.push([row, col]);
+                if (this.carrier.sunk) {
+                    for (let coordinate of this.carrierGrid) {
+                        let sinkBox = document.querySelector(`.${this.type} > .grid-container > div.row-${coordinate[0]}.col-${coordinate[1]}`);
+                        sinkBox.style.backgroundColor = "red";
+                        this.grid[coordinate[0]][coordinate[1]] = "";
+                        let image = sinkBox.querySelector("img");
+                        image.style.display = "inline-block";
+                    }
+                }   else {
+                    box.style.backgroundColor = "yellow";
+                    this.grid[row][col] = "";
+                }
+
+            }   else if (this.grid[row][col] === this.battleship.name) {
+                this.battleship.hits();
+                this.battleshipGrid.push([row, col]);
+                if (this.battleship.sunk) {
+                    for (let coordinate of this.battleshipGrid) {
+                        let sinkBox = document.querySelector(`.${this.type} > .grid-container > div.row-${coordinate[0]}.col-${coordinate[1]}`);
+                        sinkBox.style.backgroundColor = "red";
+                        this.grid[coordinate[0]][coordinate[1]] = "";
+                        let image = sinkBox.querySelector("img");
+                        image.style.display = "inline-block";
+                    }
+                }   else {
+                    box.style.backgroundColor = "yellow";
+                    this.grid[row][col] = "";
+                }
+                
+
+            }   else if (this.grid[row][col] === this.destroyer.name) {
+                this.destroyer.hits();
+                this.destroyerGrid.push([row, col]);
+                if (this.destroyer.sunk) {
+                    for (let coordinate of this.destroyerGrid) {
+                        let sinkBox = document.querySelector(`.${this.type} > .grid-container > div.row-${coordinate[0]}.col-${coordinate[1]}`);
+                        sinkBox.style.backgroundColor = "red";
+                        this.grid[coordinate[0]][coordinate[1]] = "";
+                        let image = sinkBox.querySelector("img");
+                        image.style.display = "inline-block";
+                    }
+                }   else {
+                    box.style.backgroundColor = "yellow";
+                    this.grid[row][col] = "";
+                }
+
+            }   else if (this.grid[row][col] === this.submarine.name) {
+                this.submarine.hits();
+                this.submarineGrid.push([row, col]);
+                if (this.submarine.sunk) {
+                    for (let coordinate of this.submarineGrid) {
+                        let sinkBox = document.querySelector(`.${this.type} > .grid-container > div.row-${coordinate[0]}.col-${coordinate[1]}`);
+                        sinkBox.style.backgroundColor = "red";
+                        this.grid[coordinate[0]][coordinate[1]] = "";
+                        let image = sinkBox.querySelector("img");
+                        image.style.display = "inline-block";
+                    }
+                }   else {
+                    box.style.backgroundColor = "yellow";
+                    this.grid[row][col] = "";
+                }
+
+            }   else if (this.grid[row][col] === this.patrolBoat.name) {
+                this.patrolBoat.hits();
+                this.patrolBoatGrid.push([row, col]);
+                if (this.patrolBoat.sunk) {
+                    for (let coordinate of this.patrolBoatGrid) {
+                        let sinkBox = document.querySelector(`.${this.type} > .grid-container > div.row-${coordinate[0]}.col-${coordinate[1]}`);
+                        sinkBox.style.backgroundColor = "red";
+                        this.grid[coordinate[0]][coordinate[1]] = "";
+                        let image = sinkBox.querySelector("img");
+                        image.style.display = "inline-block";
+                    }
+                }   else {
+                    box.style.backgroundColor = "yellow";
+                    this.grid[row][col] = "";
+                }
+
+            }
+        }   else if (this.grid[row][col] === "") {
+            box.textContent = ".";
+        }
 
     }
 

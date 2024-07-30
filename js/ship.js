@@ -10,7 +10,7 @@ class Ship {
 
     hits() {
         this.hit += 1;
-
+        this.sunks();
     }
 
     sunks() {
