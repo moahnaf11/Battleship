@@ -55,6 +55,7 @@ header {
     border-radius: 20px;
     box-shadow: 0px 0px 5px 3px #475569;
     position: relative;
+    background-color: #93c5fd;
 }
 
 .computer {
@@ -62,15 +63,12 @@ header {
 }
 
 .player {
-    background-color: #bef264;
     display: flex;
     flex-direction: column;
 
 }
 
-.computer {
-    background-color: #99f6e4;
-}
+
 
 .button-container {
     display: flex;
@@ -99,21 +97,23 @@ button:hover {
 
 .grid-container {
     height: 100%;
-    background-color: #94a3b8;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
     
 }
 
 .grid-container > div {
-    background-color: #f0abfc;
+    background-color: #a1a1aa;
     border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     position: relative;
+    border-radius: 10px;
+    font-weight: 900;
 }
 
 .grid-container > div:hover {
